@@ -1,20 +1,16 @@
-// Versão Simplificada e funcional
-
 #include <stdio.h>
-#include "pico/stdlib.h"
-
 #include <stdbool.h>
 #include <math.h>
+#include "pico/stdlib.h"
 #include "hardware/i2c.h"
 #include "hardware/gpio.h"
 #include "hardware/pwm.h"
-#include "hardware/pio.h"
 #include "hardware/pio.h"
 #include "pico/time.h"
 #include "pico/bootrom.h"
 #include "ssd1306.h"
 #include "font.h"
-#include "bh1750_light_sensor.h"
+#include "lib/bh1750_light_sensor.h"
 #include "ws2812.pio.h"
 
 // ===== DEFINIÇÕES DE PINOS E ENDEREÇOS =====
@@ -192,7 +188,7 @@ void update_oled_display(sensor_data_t *data) {
     sprintf(str_green, "G: %d", data->green);
     sprintf(str_blue, "B: %d", data->blue);
     sprintf(str_lux, "LUX: %d", data->lux);
-    sprintf(mode_str, "Modo: %s", matrix_mode ? "COR" : "LUZ");
+    sprintf(mode_str, "Modo: %s", matrix_mode ? "GY-33" : "GY-302");
     
     // Atualiza display
     ssd1306_fill(&ssd, false);
@@ -223,6 +219,7 @@ void handle_button_a() {
     if (current_time - last_press > 300) {
         if (!gpio_get(BTN_A_PIN)) {
             matrix_mode = !matrix_mode; // Alterna modo
+            play_sound(200, 150); // Som grave de 200Hz por 150ms
             last_press = current_time;
         }
     }
