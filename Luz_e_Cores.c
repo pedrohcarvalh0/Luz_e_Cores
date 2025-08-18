@@ -178,17 +178,24 @@ void display_brightness_mode(uint16_t lux) {
     }
 }
 
-// ===== FUNÇÕES DO DISPLAY OLED =====
 void update_oled_display(sensor_data_t *data) {
-    char str_red[12], str_green[12], str_blue[12], str_lux[16];
-    char mode_str[20];
+    char str_red[16], str_green[16], str_blue[16], str_lux[16];
+    char mode_line1[16], mode_line2[16];
     
     // Converte valores para strings
     sprintf(str_red, "R: %d", data->red);
     sprintf(str_green, "G: %d", data->green);
     sprintf(str_blue, "B: %d", data->blue);
     sprintf(str_lux, "LUX: %d", data->lux);
-    sprintf(mode_str, "Modo: %s", matrix_mode ? "GY-33" : "GY-302");
+    
+    // Divide o modo em duas linhas para melhor visualização
+    if (matrix_mode) {
+        sprintf(mode_line1, "Modo: Cores");
+        sprintf(mode_line2, "(GY-33)");
+    } else {
+        sprintf(mode_line1, "Modo: Luz");
+        sprintf(mode_line2, "(GY-302)");
+    }
     
     // Atualiza display
     ssd1306_fill(&ssd, false);
@@ -199,14 +206,15 @@ void update_oled_display(sensor_data_t *data) {
     
     // Valores RGB
     ssd1306_draw_string(&ssd, str_red, 4, 16);
-    ssd1306_draw_string(&ssd, str_green, 4, 26);
-    ssd1306_draw_string(&ssd, str_blue, 4, 36);
+    ssd1306_draw_string(&ssd, str_green, 4, 24);
+    ssd1306_draw_string(&ssd, str_blue, 4, 32);
     
     // Luminosidade
-    ssd1306_draw_string(&ssd, str_lux, 4, 48);
+    ssd1306_draw_string(&ssd, str_lux, 4, 42);
     
-    // Modo atual
-    ssd1306_draw_string(&ssd, mode_str, 4, 58);
+    // Modo atual em duas linhas
+    ssd1306_draw_string(&ssd, mode_line1, 4, 52);
+    ssd1306_draw_string(&ssd, mode_line2, 4, 60);
     
     ssd1306_send_data(&ssd);
 }
