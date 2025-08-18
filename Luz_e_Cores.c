@@ -149,9 +149,9 @@ void display_color_mode(uint16_t r, uint16_t g, uint16_t b) {
     uint8_t blue = (b * 255) / 4095;
     
     // Limita os valores máximos para não sobrecarregar os LEDs
-    red = red > 80 ? 80 : red;
-    green = green > 80 ? 80 : green;
-    blue = blue > 80 ? 80 : blue;
+    red = red > 200 ? 200 : red;
+    green = green > 200 ? 200 : green;
+    blue = blue > 200 ? 200 : blue;
     
     uint32_t color = urgb_u32(red, green, blue);
     
