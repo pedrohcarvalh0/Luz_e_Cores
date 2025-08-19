@@ -142,11 +142,11 @@ void clear_matrix() {
     }
 }
 
-void display_color_mode(uint16_t r, uint16_t g, uint16_t b) {
+void display_color_mode(uint16_t r, uint16_t g, uint16_t b) { // Valores do sensor
     // Normaliza os valores RGB para 0-255
-    uint8_t red = (r * 255) / 4095;
-    uint8_t green = (g * 255) / 4095;
-    uint8_t blue = (b * 255) / 4095;
+    uint8_t red = ((r * 255) / 1333)*10;
+    uint8_t green = ((g * 255) / 1863)*10;
+    uint8_t blue = ((b * 255) / 1590)*10;
     
     // Limita os valores máximos para não sobrecarregar os LEDs
     red = red > 200 ? 200 : red;
