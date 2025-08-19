@@ -142,11 +142,11 @@ void clear_matrix() {
     }
 }
 
-void display_color_mode(uint16_t r, uint16_t g, uint16_t b) {
+void display_color_mode(uint16_t r, uint16_t g, uint16_t b) { // Valores do sensor
     // Normaliza os valores RGB para 0-255
-    uint8_t red = (r * 255) / 4095;
-    uint8_t green = (g * 255) / 4095;
-    uint8_t blue = (b * 255) / 4095;
+    uint8_t red = ((r * 255) / 1333)*10;
+    uint8_t green = ((g * 255) / 1863)*10;
+    uint8_t blue = ((b * 255) / 1590)*10;
     
     // Limita os valores máximos para não sobrecarregar os LEDs
     red = red > 200 ? 200 : red;
@@ -191,10 +191,9 @@ void update_oled_display(sensor_data_t *data) {
     // Divide o modo em duas linhas para melhor visualização
     if (matrix_mode) {
         sprintf(mode_line1, "Modo: Cores");
-        sprintf(mode_line2, "(GY-33)");
     } else {
         sprintf(mode_line1, "Modo: Luz");
-        sprintf(mode_line2, "(GY-302)");
+
     }
     
     // Atualiza display
@@ -212,9 +211,8 @@ void update_oled_display(sensor_data_t *data) {
     // Luminosidade
     ssd1306_draw_string(&ssd, str_lux, 4, 42);
     
-    // Modo atual em duas linhas
+    // Modo atual
     ssd1306_draw_string(&ssd, mode_line1, 4, 52);
-    ssd1306_draw_string(&ssd, mode_line2, 4, 60);
     
     ssd1306_send_data(&ssd);
 }
